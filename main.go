@@ -25,13 +25,19 @@ func main() {
 	}
 	
 	
-	logic.Banner(*username)
 	events, err := api.UserBasedActivity(*username)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	
 
+	if len(events) == 0{
+		fmt.Printf("No username: %s exist", *username)
+		os.Exit(1)
+	} 
+
+	logic.Banner(*username)
 	if *cli{
 		fmt.Println()
 		logic.Cli(events)
