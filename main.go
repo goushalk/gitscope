@@ -19,13 +19,13 @@ func main() {
 	// git := 
 	flag.Parse()
 
-	logic.Banner(*username)
 	if *username == "" {
 		fmt.Println("provide username")
 		os.Exit(1)
 	}
 	
 	
+	logic.Banner(*username)
 	events, err := api.UserBasedActivity(*username)
 	if err != nil {
 		fmt.Println(err)
