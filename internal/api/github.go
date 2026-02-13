@@ -23,14 +23,16 @@ type Repo struct {
 
 type Payload struct {
 	Action   string   `json:"action,omitempty"`
-	RefType  string   `json:"ref_type,omitempty"`
+	Ref      string   `json:"ref,omitempty"`       // IMPORTANT
+	RefType  string   `json:"ref_type,omitempty"`  // branch / tag / repository
+	Head     string   `json:"head,omitempty"`      // commit SHA for PushEvent
 	Commits  []Commit `json:"commits,omitempty"`
 }
 
 type Commit struct {
-	Message string `json:"message"`
+	SHA     string `json:"sha,omitempty"`
+	Message string `json:"message,omitempty"`
 }
-
 func UserBasedActivity(username string) ([]GitHubEvent, error) {
 	url := fmt.Sprintf(
 		"https://api.github.com/users/%s/events/public",
