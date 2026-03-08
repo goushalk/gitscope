@@ -1,24 +1,23 @@
 package logic
 
-import (
-	"fmt"
-)
+import "fmt"
 
+// Banner builds the ASCII title block shown in both CLI and TUI modes.
+func Banner(username string) string {
+	version := "v0.1.0"
 
-func Banner(username string){
-	fmt.Print(`
+	return fmt.Sprintf(`
+
  ██████╗ ██╗████████╗███████╗ ██████╗ ██████╗ ██████╗ ███████╗
 ██╔════╝ ██║╚══██╔══╝██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝
 ██║  ███╗██║   ██║   ███████╗██║     ██║   ██║██████╔╝█████╗  
 ██║   ██║██║   ██║   ╚════██║██║     ██║   ██║██╔═══╝ ██╔══╝  
 ╚██████╔╝██║   ██║   ███████║╚██████╗╚██████╔╝██║     ███████╗
- ╚═════╝ ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚══════╝ v0.1.0
+ ╚═════╝ ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚══════╝ %v
 author: goushalk
-														`,
-	)
-fmt.Println()
-fmt.Println("******************************************")
-fmt.Printf("Username: %s\n", username)
-fmt.Println("******************************************")
 
+******************************************
+Username: %s
+******************************************
+`, version, username)
 }

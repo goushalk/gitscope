@@ -1,4 +1,3 @@
-
 package ui
 
 import (
@@ -6,6 +5,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+// NewTable configures the activity table columns, size, and styles.
 func NewTable(rows []table.Row) table.Model {
 	columns := []table.Column{
 		{Title: "Event", Width: 33},

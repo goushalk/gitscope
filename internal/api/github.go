@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// GitHubEvent represents a single event from the GitHub public events API.
 type GitHubEvent struct {
 	ID        string  `json:"id"`
 	Type      string  `json:"type"`
@@ -15,24 +16,29 @@ type GitHubEvent struct {
 	CreatedAt string  `json:"created_at"`
 }
 
+// Repo contains repository metadata included in an event payload.
 type Repo struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
 
+// Payload contains event-specific fields (for example branch/tag refs or commit SHAs).
 type Payload struct {
-	Action   string   `json:"action,omitempty"`
-	Ref      string   `json:"ref,omitempty"`       // IMPORTANT
-	RefType  string   `json:"ref_type,omitempty"`  // branch / tag / repository
-	Head     string   `json:"head,omitempty"`      // commit SHA for PushEvent
-	Commits  []Commit `json:"commits,omitempty"`
+	Action  string   `json:"action,omitempty"`
+	Ref     string   `json:"ref,omitempty"`      // e.g. refs/heads/main for push/create/delete events
+	RefType string   `json:"ref_type,omitempty"` // branch / tag / repository for create/delete events
+	Head    string   `json:"head,omitempty"`     // commit SHA for PushEvent
+	Commits []Commit `json:"commits,omitempty"`
 }
 
+// Commit is a reduced commit representation included by some event types.
 type Commit struct {
 	SHA     string `json:"sha,omitempty"`
 	Message string `json:"message,omitempty"`
 }
+
+// UserBasedActivity fetches recent public activity for a given GitHub username.
 func UserBasedActivity(username string) ([]GitHubEvent, error) {
 	url := fmt.Sprintf(
 		"https://api.github.com/users/%s/events/public",
@@ -44,6 +50,7 @@ func UserBasedActivity(username string) ([]GitHubEvent, error) {
 		return nil, err
 	}
 
+	// GitHub requires a user-agent header for API requests.
 	req.Header.Set("User-Agent", "github-activity-cli")
 
 	client := &http.Client{Timeout: 10 * time.Second}
@@ -64,4 +71,3 @@ func UserBasedActivity(username string) ([]GitHubEvent, error) {
 
 	return events, nil
 }
-

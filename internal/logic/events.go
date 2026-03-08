@@ -1,6 +1,6 @@
-
 package logic
 
+// EventAction maps a GitHub event type to a short UI-friendly action label.
 func EventAction(eventType string) string {
 	switch eventType {
 	case "PushEvent":

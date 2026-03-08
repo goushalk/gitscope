@@ -8,6 +8,7 @@ import (
 	"github.com/goushalk/gitscope/internal/api"
 )
 
+// Cli prints a readable, line-oriented summary of GitHub events.
 func Cli(events []api.GitHubEvent) {
 	for _, e := range events {
 		switch e.Type {
@@ -79,6 +80,7 @@ func Cli(events []api.GitHubEvent) {
 	}
 }
 
+// handleCreate renders CreateEvent variants (branch, tag, repository).
 func handleCreate(e api.GitHubEvent) {
 	switch e.Payload.RefType {
 
@@ -115,6 +117,7 @@ func handleCreate(e api.GitHubEvent) {
 	}
 }
 
+// shortSHA returns a 7-char abbreviated SHA when possible.
 func shortSHA(sha string) string {
 	if len(sha) >= 7 {
 		return sha[:7]
@@ -122,12 +125,14 @@ func shortSHA(sha string) string {
 	return sha
 }
 
+// extractBranch returns the trailing branch segment from a Git ref.
 func extractBranch(ref string) string {
 	// refs/heads/master → master
 	parts := strings.Split(ref, "/")
 	return parts[len(parts)-1]
 }
 
+// formatTime converts RFC3339 input to a compact local-readable format.
 func formatTime(t string) string {
 	parsed, err := time.Parse(time.RFC3339, t)
 	if err != nil {
